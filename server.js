@@ -12,6 +12,10 @@ app.use(cors());
 app.use(express.json());
 app.get("/", (req, res) => res.send("hello"));
 
+app.use(express.static(path.join(__dirname, "/client/dist")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 // use route
 app.use("/api/tasks", tasks);
 
