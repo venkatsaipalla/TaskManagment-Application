@@ -4,7 +4,7 @@ const path = require("path");
 //mongoDB connection
 require("./config/db");
 
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 
 // importing routes
 const tasks = require("./routes/api/task");
