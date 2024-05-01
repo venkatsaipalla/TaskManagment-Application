@@ -3,7 +3,7 @@ import { Container, Typography, TextField, Button, List, ListItem, ListItemSecon
 import { Delete } from '@mui/icons-material';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3008/api/tasks';
+const BASE_URL = 'https://taskmanagment-application.onrender.com/api/tasks';
 
 const App = () => {
   const [todos, setTodos] = useState([]);
