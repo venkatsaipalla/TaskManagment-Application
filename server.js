@@ -1,8 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-
+const path = require("path");
 //mongoDB connection
 require("./config/db");
+
+const __dirname = path.resolve();
 
 // importing routes
 const tasks = require("./routes/api/task");
@@ -37,4 +39,3 @@ const port = process.env.PORT || 3008;
 app.listen(port, () =>
   console.log(`server is running at http://localhost:${port}`)
 );
-
