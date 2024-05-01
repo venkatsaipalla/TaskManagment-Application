@@ -1,13 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, List, ListItem, ListItemSecondaryAction, IconButton, Checkbox } from '@mui/material';
-import { Delete } from '@mui/icons-material';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  IconButton,
+  Checkbox,
+} from "@mui/material";
+import { Delete } from "@mui/icons-material";
+import axios from "axios";
 
-const BASE_URL = 'https://taskmanagment-application.onrender.com/api/tasks';
+const BASE_URL = "https://taskmanagment-application.onrender.com/api/tasks";
 
+// const BASE_URL = 'http://localhost:3008/api/tasks';
+// un comment the above line if you want to run the application locally and comment line 6
 const App = () => {
   const [todos, setTodos] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     fetchTodos();
@@ -18,7 +30,7 @@ const App = () => {
       const response = await axios.get(`${BASE_URL}/all`);
       setTodos(response.data);
     } catch (error) {
-      console.error('Error fetching todos:', error);
+      console.error("Error fetching todos:", error);
     }
   };
 
@@ -27,14 +39,14 @@ const App = () => {
   };
 
   const handleAddTodo = async () => {
-    if (inputValue.trim() !== '') {
+    if (inputValue.trim() !== "") {
       try {
         const newTodo = { title: inputValue, completed: false, editing: true };
         const response = await axios.post(`${BASE_URL}/add`, newTodo);
         setTodos([...todos, response.data]);
-        setInputValue('');
+        setInputValue("");
       } catch (error) {
-        console.error('Error adding todo:', error);
+        console.error("Error adding todo:", error);
       }
     }
   };
@@ -45,35 +57,41 @@ const App = () => {
       const updatedTodos = todos.filter((todo) => todo._id !== id);
       setTodos(updatedTodos);
     } catch (error) {
-      console.error('Error deleting todo:', error);
+      console.error("Error deleting todo:", error);
     }
   };
 
   const handleToggleComplete = async (id, completed) => {
-    console.log({ completed })
+    console.log({ completed });
     try {
-      const updatedTodo = { ...todos.find((todo) => todo._id === id), completed };
-      console.log({ updatedTodo })
+      const updatedTodo = {
+        ...todos.find((todo) => todo._id === id),
+        completed,
+      };
+      console.log({ updatedTodo });
       await axios.put(`${BASE_URL}/update/${id}`, updatedTodo);
       const updatedTodos = todos.map((todo) =>
         todo._id === id ? { ...todo, completed } : todo
       );
       setTodos(updatedTodos);
     } catch (error) {
-      console.error('Error updating todo:', error);
+      console.error("Error updating todo:", error);
     }
   };
 
   const handleTextUpdate = async (id, newText) => {
     try {
-      const updatedTodo = { ...todos.find((todo) => todo._id === id), title: newText };
+      const updatedTodo = {
+        ...todos.find((todo) => todo._id === id),
+        title: newText,
+      };
       await axios.put(`${BASE_URL}/update/${id}`, updatedTodo);
       const updatedTodos = todos.map((todo) =>
         todo._id === id ? { ...todo, title: newText } : todo
       );
       setTodos(updatedTodos);
     } catch (error) {
-      console.error('Error updating todo text:', error);
+      console.error("Error updating todo text:", error);
     }
   };
 
@@ -82,22 +100,27 @@ const App = () => {
       <Typography variant="h4" align="center" gutterBottom>
         To-Do List
       </Typography>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+      <div
+        style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}
+      >
         <TextField
           variant="outlined"
           fullWidth
           label="Enter your task..."
           value={inputValue}
           onChange={handleInputChange}
-          sx={{ flex: 1, marginRight: '10px' }}
+          sx={{ flex: 1, marginRight: "10px" }}
         />
-        <Button variant="contained" onClick={handleAddTodo} sx={{ backgroundColor: '#28a745', color: '#fff' }}>
+        <Button
+          variant="contained"
+          onClick={handleAddTodo}
+          sx={{ backgroundColor: "#28a745", color: "#fff" }}
+        >
           Add
         </Button>
       </div>
       <List>
         {todos.map((todo) => (
-
           <ListItem key={todo._id}>
             <Checkbox
               checked={todo.completed}
@@ -115,30 +138,38 @@ const App = () => {
                 }
               }}
               onKeyDown={(e) => {
-                if (e.key === 'Enter' && todo.editing) {
+                if (e.key === "Enter" && todo.editing) {
                   e.target.blur();
                 }
               }}
               onChange={(e) =>
                 setTodos((prevTodos) =>
                   prevTodos.map((prevTodo) =>
-                    prevTodo._id === todo._id ? { ...prevTodo, title: e.target.value } : prevTodo
+                    prevTodo._id === todo._id
+                      ? { ...prevTodo, title: e.target.value }
+                      : prevTodo
                   )
                 )
               }
               onClick={() => {
                 setTodos((prevTodos) =>
                   prevTodos.map((prevTodo) =>
-                    prevTodo._id === todo._id ? { ...prevTodo, editing: true } : { ...prevTodo, editing: false }
+                    prevTodo._id === todo._id
+                      ? { ...prevTodo, editing: true }
+                      : { ...prevTodo, editing: false }
                   )
                 );
               }}
               sx={{
-                textDecoration: todo.completed ? 'line-through' : 'none'
+                textDecoration: todo.completed ? "line-through" : "none",
               }}
             />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteTodo(todo._id)}>
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={() => handleDeleteTodo(todo._id)}
+              >
                 <Delete />
               </IconButton>
             </ListItemSecondaryAction>
