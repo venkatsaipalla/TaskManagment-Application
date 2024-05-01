@@ -8,6 +8,7 @@ require("./config/db");
 const tasks = require("./routes/api/task");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.get("/", (req, res) => res.send("hello"));
 
@@ -15,7 +16,6 @@ app.get("/", (req, res) => res.send("hello"));
 app.use("/api/tasks", tasks);
 
 //change the port number to react server port then it will work fine
-app.use(cors());
 const { createProxyMiddleware } = require("http-proxy-middleware");
 app.use(
   "/api",

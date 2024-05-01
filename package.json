@@ -9,7 +9,7 @@
   },
   "scripts": {
     "server": "nodemon server",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "name": "task-management-application",
   "version": "1.0.0",
